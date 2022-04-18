@@ -1,0 +1,1 @@
+web: gunicorn queuetask.wsgi --log-file -

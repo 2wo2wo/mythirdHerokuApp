@@ -1,0 +1,39 @@
+{% extends 'main/sc-layout.html' %}
+{% block title %} Choose table {% endblock %}
+
+
+            {% block page %} 
+                  Tables available : 
+            {% endblock %}
+            {% block aft-page %}
+                    Have a seat wherever you want
+            {% endblock %}
+
+       
+     
+        {% block cards %}
+        <div class="col">
+            <form action="{% url "book" num.id %}" method="post">        
+                {% csrf_token %}
+          <div class="card  mb-4 rounded-3 shadow-sm"  id="card-18">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{num.name}}</h5>
+              
+                <p class="card-text">
+                    <select name="chair">
+                        {% for chair in chairs  %}
+                            <option value="{{chair.id}}">{{chair.number}}</li>
+                        {% endfor %}
+                    
+                </p>                 
+              
+              
+                <input type ="submit" class="btn btn-primary" value="Book" />
+            
+            </div>
+          </div>
+    
+    
+        </div>
+        {% endblock  %}

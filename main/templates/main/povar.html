@@ -1,0 +1,29 @@
+{% extends 'main/sc-layout.html' %}
+{% block title %} Chef Page {% endblock %}
+            {% block page %} 
+                  Clients Today: 
+            {% endblock %}
+            {% block aft-page %}
+                    Ordered by book
+            {% endblock %}      
+     
+        {% block cards %}
+          {% for client in clients %} 
+          <div class="col">
+            
+            <div class="card  mb-4 rounded-3 shadow-sm"  id="card-18">
+              <img src="..." class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{client.name}}</h5>
+                {% for meal in client.meals.all %}
+                  <p class="card-text">{{meal.name}}</p>
+                  <p class="card-text">{{meal.price}}</p>
+                {% endfor %}
+                <a href="#" class="btn btn-primary">Take Order</a>
+              </div>
+            </div>
+
+
+          </div>
+          {% endfor %}
+        {% endblock  %}

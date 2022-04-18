@@ -1,0 +1,16 @@
+{% extends 'main/sc-layout.html' %}
+{% block title %} Booked page {% endblock %}
+            {% block page %} 
+            You booked table {{chair_number}} and ordered {{meal_name.name}}
+            {% endblock %}
+            {% block aft-page %}
+            Help Yourself
+            <p>please press before leaving</p>
+            {% endblock %}      
+     
+        {% block cards %}          
+                <form action="{% url 'unbook' chair_number.id %}" method="post" >
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-success btn-lg" value="Completed" />
+                </form>
+        {% endblock  %}

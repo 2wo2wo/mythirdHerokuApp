@@ -1,0 +1,113 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block csslink %} <link rel="stylesheet" href="{% static 'css/styles.css' %}" />  {% endblock %}
+{% block title %}Queue App{% endblock %}
+{% block body %} 
+<div class="container py-3">
+    <header>
+      <nav class="navbar navbar-expand-md  bg-light mb-4" >
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Stolovoy</a>
+          <button class="navbar-toggler " id="text-black" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon "></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#meals-link">Meals</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Map</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Contact-us</a>
+              </li>
+              
+              
+            </ul>  
+            {% if  request.user.is_authenticated %}         
+                <p>Welcome {{request.user.first_name}} Do you want to log out?</p>
+                <p><a class="mb-3 btn btn-warning" href="{% url 'log-out' %}">Log-out</a></p>
+            {% else %}
+                <a href="{% url 'log-in' %}" class="btn btn-outline-dark " >Login</a>
+                <a href="{% url 'register' %}" class="btn btn-success" >Register</a>
+            {% endif%}
+          </div>
+        </div>
+      </nav>
+      <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+         
+
+      </div>
+  
+      <div class="p-4 p-md-5 mb-4  rounded bg-light">
+        <div class="col-md-6 px-0">
+          <h1 class="display-4 fst-italic">Enjoy our delicious food and book your place</h1>
+          <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+          <p class="lead mb-0"><a href="" class=" fw-bold">Continue reading...</a></p>
+        </div>
+      </div>
+
+      <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal">Meals Today</h1>
+        <p class="fs-5 text-muted">Take your food and book in a moment</p>
+      </div>          
+    </header>
+  
+    <main>
+
+      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" id="meals-link">
+        {% for meal in meals %} 
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+              <h4 class="my-0 fw-normal">{{meal.name}}</h4>
+            </div>
+            <div class="card-body">
+                <img src="" alt="">
+              <h1 class="card-title pricing-card-title">{{meal.price}} <small class="text-muted fw-light">UZS</small></h1>                  
+              <a href="{% url 'dish' meal.id %}"  class="w-100 btn btn-lg btn-outline-primary">Purchase</a>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+       
+
+      </div>
+  
+      <h2 class="display-6 text-center mb-4">Compare plans</h2>
+  
+      
+    </main>
+  
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row">
+        <div class="col-12 col-md">
+          <img class="mb-2" src="" alt="" width="24" height="19">
+          <small class="d-block mb-3 text-muted">© 2017–2021</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Follow-us</h5>
+          <ul class="list-unstyled text-small">
+            <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Telegram</a></li>
+            <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Instagram</a></li>
+            <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Facebook</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Staff</h5>
+          <ul class="list-unstyled text-small">
+            <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'povar' %}">Orders</a></li>
+            <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'add' %}">Adding meal</a></li>
+            <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Statistics</a></li>
+           
+            
+          
+          </ul>
+        </div>
+       
+      </div>
+    </footer>
+  </div>
+{% endblock %} 

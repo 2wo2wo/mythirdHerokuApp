@@ -1,0 +1,13 @@
+{% extends 'main/sc-layout.html' %}
+{% block title %} Gratitude {% endblock %}
+            {% block page %} 
+            Thanks for using us
+            {% endblock %}
+            {% block aft-page %}
+                    Ordered by book
+            {% endblock %}      
+     
+        {% block cards %}
+        <a class="btn btn-lg btn-success" href="{% url 'index' %}">Go to mainpage</a>
+        
+        {% endblock  %}
