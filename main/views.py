@@ -1,10 +1,11 @@
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
-from .models import Meal , Chair , Client
+from .models import Meal, Chair, Client
 from django.contrib.auth.models import User
-from django.contrib.auth import login , authenticate , logout
-from .forms import AddLogins , MealsForm
+from django.contrib.auth import login, authenticate, logout
+from .forms import AddLogins, MealsForm
+from django.contrib.auth.decorators import login_required
 import random
 # Create your views here.
 
@@ -16,28 +17,29 @@ def index(request):
         }) 
 
 def just(request , just_id):
-    chairs =  Chair.objects.exclude(busy=True).all()    
-    return render(request , 'main/login.html',{
+    chairs = Chair.objects.exclude(busy=True).all()
+    return render(request, 'main/login.html',{
         "num":Meal.objects.get(pk = just_id),
         "chairs": chairs
     })  
-
+@login_required
 def book(request , name_meal):
     if request.method == "POST":        
-        chair = Chair.objects.get(pk = int(request.POST["chair"]))
+        chair = Chair.objects.get(pk=int(request.POST["chair"]))
         chair.busy = True
         chair.save()
-        meal = Meal.objects.get(pk = name_meal)        
-        client = Client.objects.get( User_id = request.user.id )
+        meal = Meal.objects.get(pk=name_meal)
+        client = Client.objects.get(User_id=request.user.id)
         client.meals.add(meal)
         client.chair.clear()
         client.chair.add(chair)
-        return render(request , 'main/chair.html' , {             
+        return render(request, 'main/chair.html', {
             "chair_number": chair,
             "meal_name": meal
         })
-    return render(request , 'main/error.html')      
+    return render(request, 'main/error.html')
 
+@login_required
 def unbook(request , chair_id):
     if request.method == "POST": 
         chairs = Chair.objects.get(pk = int(chair_id))
@@ -47,8 +49,9 @@ def unbook(request , chair_id):
         client_chair = Client.objects.get(chair = chairs)
         client_chair.chair.clear()
         client_chair.meals.clear()
-        return render(request , 'main/unbook.html' )
-    return render(request , 'main/error.html' )
+        return render(request, 'main/unbook.html' )
+    return render(request, 'main/error.html' )
+
 
 def register(request):
     if request.method == "POST":
@@ -81,7 +84,7 @@ def register(request):
     return render(request , 'main/register.html')
 
 
-
+@login_required
 def povar(request):
     clients = Client.objects.exclude(meals=None).all()    
     return render(request , 'main/povar.html', {
@@ -104,13 +107,14 @@ def login_view(request):
 
     return render(request ,'main/log_in.html')       
 
-
+@login_required
 def logout_view(request):
     logout(request)
     return render(request , 'main/log_in.html' , {
         "message":"You logged out"
     })
 
+@login_required
 def addMeal(request):
     if request.method =="POST":
         meal_name = request.POST["meal"]
